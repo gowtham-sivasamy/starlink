@@ -5,7 +5,7 @@ on:
     types: [opened, edited, synchronize]
 
 jobs:
-  checklist:
+  checklist_edited:
     runs-on: ubuntu-latest
     steps:
       - name: Check PR body for checklist completion
