@@ -1,14 +1,13 @@
-### Pull Request Checklist
+---
+name: Production PR Template
+about: Use this template for PRs targeting the production branch
+title: "[PROD] "
+labels: [production]
+assignees: []
+---
 
-- [ ] Code compiles without errors
-- [ ] Tests have been added/updated
-- [ ] Documentation has been updated
-- [ ] Code follows the style guide
-- [ ] Linked to relevant issue (if any)
-
-### Description
-<!-- Describe your changes here -->
-
-### Related Issues
-<!-- Link related issues here -->
+### Checklist
+- [ ] Production-ready code
+- [ ] All tests passed
+- [ ] Documentation updated
 
