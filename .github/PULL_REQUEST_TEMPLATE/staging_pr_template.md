@@ -1,4 +1,11 @@
-### Pull Request Checklist
+---
+name: Staging PR Template
+about: Use this template for PRs targeting the staging branch
+title: "[STAGING] "
+labels: [staging]
+assignees: []
+---
 
-- [ ] Documentation has been updated
-- [ ] Code follows the style guide
+### Checklist
+- [ ] Feature tested in staging
+- [ ] QA approved
