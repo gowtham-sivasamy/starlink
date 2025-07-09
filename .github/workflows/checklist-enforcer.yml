@@ -13,7 +13,10 @@ jobs:
         with:
           script: |
             const body = context.payload.pull_request.body;
+            const checkboxes = body.match(/- \[[ xX]\]/g);
             const incomplete = body.match(/- \[ \]/g);
-            if (incomplete) {
+            if (checkboxes && incomplete && incomplete.length > 0) {
               core.setFailed(`Checklist incomplete: ${incomplete.length} item(s) left.`);
+            } else {
+              console.log("Checklist fully complete or not found. Skipping failure.");
             }
