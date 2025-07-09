@@ -1,0 +1,54 @@
+name: Auto Insert PR Checklist Based on Base Branch
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  insert-checklist:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔍 Insert proper template into PR body
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            const baseBranch = context.payload.pull_request.base.ref;
+            const prNumber = context.payload.pull_request.number;
+            const prBody = context.payload.pull_request.body || '';
+
+            let templatePath;
+
+            if (baseBranch === 'main') {
+              templatePath = '.github/PULL_REQUEST_TEMPLATE/production_pr_template.md';
+            } else if (baseBranch === 'staging-branch') {
+              templatePath = '.github/PULL_REQUEST_TEMPLATE/staging_pr_template.md';
+            }
+
+            if (!templatePath) {
+              console.log(`No matching template for base branch: ${baseBranch}`);
+              return;
+            }
+
+            const templateContent = fs.readFileSync(templatePath, 'utf8');
+
+            if (prBody && prBody.trim().length > 0) {
+              console.log("PR body already present. Skipping overwrite.");
+              return;
+            }
+
+            await github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+              body: templateContent
+            });
+
+            console.log(`✅ Inserted checklist from ${templatePath}`);
